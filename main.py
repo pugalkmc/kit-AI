@@ -20,35 +20,19 @@ bot = telegram.Bot(token=TELEGRAM_BOT_TOKEN)
 def handle_message(update, context):
     # Get the message text
     message_text = update.message.text
-    message = update.message
-    chat_id = update.effective_chat.id
 
-    # Call the ChatGPT API to generate a response
-    # Call the ChatGPT API to generate a response
     # Call the ChatGPT API to generate a response
     headers = {
-    "Content-Type": "application/json",
-    "Authorization": f"Bearer {CHATGPT_API_KEY}"
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {CHATGPT_API_KEY}"
     }
     data = {
-    "prompt": f"Context: {message_text}",
-    "max_tokens": 500,
-    "temperature": 0.7
+        "prompt": message_text,
+        "max_tokens": 100,
+        "temperature": 0.5
     }
     response = requests.post(CHATGPT_ENDPOINT, headers=headers, data=json.dumps(data))
-    response_text = response.json()["choices"][0]["text"].strip()
-
-    # Extract the code portion of the response text
-    code_start = response_text.find('```')
-    code_end = response_text.rfind('```')
-    if code_start != -1 and code_end != -1:
-        code_text = response_text[code_start+len('```'):code_end].strip()
-    else:
-        code_text = response_text
-
-    # Format the code text as monospace text
-        response_data = response_text.replace(code_text, f"<code>{code_text}</code>")
-
+    response_data = response.json()["choices"][0]["text"].strip()
 
     # Check if the response is empty or contains an error message
     if not response_data:
@@ -58,10 +42,8 @@ def handle_message(update, context):
     else:
         response_text = response_data
 
-    # Send the response back to the user
-    chat_id = update.effective_chat.id
-    bot.send_message(chat_id=chat_id, text=response_text)
-
+    # Send the response back to the user as monospace text
+    bot.send_message(chat_id=update.effective_chat.id, text=f"{response_text}", parse_mode=telegram.ParseMode.HTML)
 
 
 # Define a function to handle the /start command
