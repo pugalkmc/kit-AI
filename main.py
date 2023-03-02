@@ -32,6 +32,7 @@ def handle_message(update, context):
     }
     response = requests.post(CHATGPT_ENDPOINT, headers=headers, data=json.dumps(data))
     response_data = response.json()["choices"][0]["text"].strip()
+    bot.send_message(chat_id=chat_id, text=response.json())
 
     # Check if the response is empty or contains an error message
     if not response_data:
