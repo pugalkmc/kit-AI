@@ -31,7 +31,7 @@ def handle_message(update, context):
     "Authorization": f"Bearer {CHATGPT_API_KEY}"
     }
     data = {
-    "prompt": f"Context: {previous_messages} \n\n {message_text}",
+    "prompt": f"Context: {message_text}",
     "max_tokens": 200,
     "temperature": 0.8
     }
