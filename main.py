@@ -16,7 +16,6 @@ TELEGRAM_BOT_TOKEN = "5325072620:AAF3z2mQqmpyfyM9tkbNgcDn0L7-kBaEJOw"
 bot = telegram.Bot(token=TELEGRAM_BOT_TOKEN)
 
 
-# Define a function to handle user messages
 def handle_message(update, context):
     # Get the message text
     message_text = update.message.text
@@ -32,11 +31,20 @@ def handle_message(update, context):
         "temperature": 0.5
     }
     response = requests.post(CHATGPT_ENDPOINT, headers=headers, data=json.dumps(data))
-    response_text = response.json()["choices"][0]["text"].strip()
+    response_data = response.json()["choices"][0]["text"].strip()
+
+    # Check if the response is empty or contains an error message
+    if not response_data:
+        response_text = "Sorry, I couldn't generate a response for that."
+    elif "model_failure" in response_data:
+        response_text = "Sorry, there was an error generating the response."
+    else:
+        response_text = response_data
 
     # Send the response back to the user
     chat_id = update.effective_chat.id
     bot.send_message(chat_id=chat_id, text=response_text)
+
 
 
 # Define a function to handle the /start command
