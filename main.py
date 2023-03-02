@@ -24,14 +24,15 @@ def handle_message(update, context):
     chat_id = update.effective_chat.id
 
     # Call the ChatGPT API to generate a response
+    # Call the ChatGPT API to generate a response
     headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {CHATGPT_API_KEY}"
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {CHATGPT_API_KEY}"
     }
     data = {
-        "prompt": message_text,
-        "max_tokens": 100,
-        "temperature": 0.5
+    "prompt": f"Context: {previous_messages} \n\n {message_text}",
+    "max_tokens": 200,
+    "temperature": 0.7
     }
     response = requests.post(CHATGPT_ENDPOINT, headers=headers, data=json.dumps(data))
     response_data = response.json()["choices"][0]["text"].strip()
