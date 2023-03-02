@@ -19,6 +19,8 @@ bot = telegram.Bot(token=TELEGRAM_BOT_TOKEN)
 def handle_message(update, context):
     # Get the message text
     message_text = update.message.text
+    message = update.message
+    chat_id = update.effective_chat.id
 
     # Call the ChatGPT API to generate a response
     headers = {
