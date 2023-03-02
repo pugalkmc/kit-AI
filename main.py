@@ -25,17 +25,30 @@ def handle_message(update, context):
 
     # Call the ChatGPT API to generate a response
     # Call the ChatGPT API to generate a response
+    # Call the ChatGPT API to generate a response
     headers = {
     "Content-Type": "application/json",
     "Authorization": f"Bearer {CHATGPT_API_KEY}"
     }
     data = {
-    "prompt": f"Context: {message_text}",
+    "prompt": f"Context: {previous_messages} \n\n {message_text}",
     "max_tokens": 200,
-    "temperature": 0.7
+    "temperature": 0.8
     }
     response = requests.post(CHATGPT_ENDPOINT, headers=headers, data=json.dumps(data))
-    response_data = response.json()["choices"][0]["text"].strip()
+    response_text = response.json()["choices"][0]["text"].strip()
+
+    # Extract the code portion of the response text
+    code_start = response_text.find('```')
+    code_end = response_text.rfind('```')
+    if code_start != -1 and code_end != -1:
+        code_text = response_text[code_start+len('```'):code_end].strip()
+    else:
+        code_text = response_text
+
+    # Format the code text as monospace text
+        response_data = response_text.replace(code_text, f"<code>{code_text}</code>")
+
 
     # Check if the response is empty or contains an error message
     if not response_data:
