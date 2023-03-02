@@ -32,7 +32,7 @@ def handle_message(update, context):
         "temperature": 0.5
     }
     response = requests.post(CHATGPT_ENDPOINT, headers=headers, data=json.dumps(data))
-    bot.send_message(chat_id=chat_id,text=response)
+    bot.send_message(chat_id=update.effective_chat.id,text=response)
     response_data = response.json()["choices"][0]["text"].strip()
 
     # Check if the response is empty or contains an error message
