@@ -7,7 +7,7 @@ from telegram.ext import CommandHandler, MessageHandler, Filters, Updater
 CHATGPT_ENDPOINT = "https://api.openai.com/v1/engines/davinci-codex/completions"
 
 # ChatGPT API key
-CHATGPT_API_KEY = "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"
+CHATGPT_API_KEY = "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"
 
 # Telegram bot token
 TELEGRAM_BOT_TOKEN = "5325072620:AAF3z2mQqmpyfyM9tkbNgcDn0L7-kBaEJOw"
