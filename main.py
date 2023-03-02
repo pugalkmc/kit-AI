@@ -1,6 +1,7 @@
 import requests
 import json
 import telegram
+import os
 from telegram.ext import CommandHandler, MessageHandler, Filters, Updater
 
 # ChatGPT API endpoint
