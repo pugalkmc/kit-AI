@@ -33,7 +33,7 @@ def handle_message(update, context):
     data = {
     "prompt": f"Context: {message_text}",
     "max_tokens": 500,
-    "temperature": 2
+    "temperature": 0.7
     }
     response = requests.post(CHATGPT_ENDPOINT, headers=headers, data=json.dumps(data))
     response_text = response.json()["choices"][0]["text"].strip()
